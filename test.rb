@@ -16,7 +16,8 @@ puts "Name: #{person2.name}"
 puts "Age: #{person2.age}"
 puts person2.can_use_services? ? 'Can use services' : 'Cannot use services'
 
-teacher = Teacher.new(1, 33, specialization: 'Math', name: 'Alice Jones')
+# teacher = Teacher.new(1, 33, specialization: 'Math', name: 'Alice Jones')
+teacher = Teacher.new(1, 33, 'Math', 'Alice Jones', parent_permission: true)
 puts teacher.id
 puts teacher.age
 puts teacher.specialization
@@ -30,7 +31,7 @@ puts student.classroom
 puts student.name
 puts student.play_hooky
 
-person = Person.new(22, 'maximilianus')
+person = Person.new(3, 22, name: 'maximilianus', parent_permission: true)
 person.correct_name
 capitalized_person = CapitalizeDecorator.new(person)
 puts capitalized_person.correct_name
