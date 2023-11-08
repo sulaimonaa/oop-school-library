@@ -12,19 +12,26 @@ def display_menu
 end
 
 def handle_option(option, people, books, rentals)
-  option_handlers = {
-    1 => -> { list_all_books(books) },
-    2 => -> { list_all_people(people) },
-    3 => -> { create_person_menu(people) },
-    4 => -> { create_book_menu(books) },
-    5 => -> { create_rental_menu(people, books, rentals) },
-    6 => -> { list_rentals_menu(people, rentals) },
-    7 => -> { quit },
-    default: -> { invalid_option }
-  }
-
-  option_handlers[option] || option_handlers[:default].call
+  case option
+  when 1
+    list_all_books(books)
+  when 2
+    list_all_people(people)
+  when 3
+    create_person_menu(people)
+  when 4
+    create_book_menu(books)
+  when 5
+    create_rental_menu(people, books, rentals)
+  when 6
+    list_rentals_menu(people, rentals)
+  when 7
+    quit
+  else
+    invalid_option
+  end
 end
+
 
 def quit
   puts 'Goodbye!'
@@ -36,8 +43,33 @@ def invalid_option
 end
 
 def create_person_menu(people)
-  # Collect person information and create a person (teacher or student)
-  # ...
+  print "Enter person type (teacher/student): "
+  person_type = gets.chomp.downcase
+
+  print "Enter ID: "
+  id = gets.chomp.to_i
+
+  print "Enter age: "
+  age = gets.chomp.to_i
+
+  print "Enter name (optional): "
+  name = gets.chomp
+
+  print "Parent permission (true/false, optional): "
+  parent_permission = gets.chomp.downcase == 'true'
+
+  # Depending on the person_type, you might need additional information
+  if person_type == 'teacher'
+    print "Enter specialization: "
+    specialization = gets.chomp
+    create_person(people, person_type, id, age, name, parent_permission, specialization)
+  elsif person_type == 'student'
+    print "Enter classroom: "
+    classroom = gets.chomp
+    create_person(people, person_type, id, age, name, parent_permission, classroom)
+  else
+    puts "Invalid person type."
+  end
 end
 
 def create_book_menu(books)
@@ -63,8 +95,14 @@ def main
   loop do
     display_menu
     print 'Please choose an option: '
-    choice = gets.chomp.to_i
-    handle_option(choice, people, books, rentals)
+    # Get the user's choice from input and store it in the `user_choice` variable
+user_choice = gets.chomp.to_i
+
+# Call `handle_option` with the user's choice and the relevant data structures
+handle_option(user_choice, people, books, rentals)
+
+    # choice = gets.chomp.to_i
+    # handle_option(choice, people, books, rentals)
   end
 end
 

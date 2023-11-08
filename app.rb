@@ -34,9 +34,9 @@ def create_person(people, type, id, age, options = {})
   classroom = options[:classroom]
 
   if type == 'teacher'
-    person = Teacher.new(id, age, specialization, name, parent_permission)
+    person = Teacher.new(id, age, name, parent_permission)
   elsif type == 'student'
-    person = Student.new(id, age, classroom, name, parent_permission)
+    person = Student.new(id, age, name, parent_permission)
   else
     puts 'Invalid person type.'
     return
@@ -68,15 +68,3 @@ def list_rentals_for_person(rentals, person_id)
     puts "Book: #{rental.book.title}"
   end
 end
-
-# Example usage
-create_book(books, 'Book 1', 'Author 1')
-create_book(books, 'Book 2', 'Author 2')
-create_person(people, 'teacher', 1, 35, { name: 'John Doe', parent_permission: true, specialization: 'Math' })
-# create_person(people, 'teacher', 1, 35, 'John Doe', true, 'Math')
-create_person(people, 'student', 2, 16,
-              { name: 'Alice Smith', parent_permission: true, classroom: 'Class A' })
-create_rental(rentals, books[0], people[0])
-list_all_books(books)
-list_all_people(people)
-list_rentals_for_person(rentals, 1)
