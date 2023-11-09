@@ -76,19 +76,3 @@ def list_rentals_for_person(rentals, person_id)
     puts "Book Title: #{rental.book.title}, Date: #{rental.date}"
   end
 end
-
-# Sample usage
-# list_all_books(books)
-# list_all_people(people)
-
-# create_person(people, 'teacher', 1, 35, 'John Doe', parent_permission: true, specialization: 'Math')
-# create_person(people, 'student', 2, 16, 'Alice Smith', parent_permission: true, classroom: 'Class A')
-
-# create_book(books, 'Introduction to Ruby', 'Ruby Author')
-# create_book(books, 'Python Programming', 'Python Author')
-
-# create_rental(people, books, rentals, 1, 'Introduction to Ruby', '2023-11-07')
-# create_rental(people, books, rentals, 2, 'Python Programming', '2023-11-08')
-
-# list_rentals_for_person(rentals, 1)
-# list_rentals_for_person(rentals, 2)
