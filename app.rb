@@ -1,82 +1,106 @@
+require_relative 'book'
 require_relative 'person'
 require_relative 'student'
 require_relative 'teacher'
-require_relative 'book'
 require_relative 'rental'
 
-# Initialize data structures
-
-# Method to list all books
-def list_all_books(books)
-  puts 'List of Books:'
-  books.each do |book|
-    puts "Title: #{book.title}, Author: #{book.author}"
-  end
-end
-
-# Method to list all people
-def list_all_people(people)
-  puts 'List of People:'
-  people.each do |person|
-    puts "ID: #{person.id}, Name: #{person.name}, Age: #{person.age}"
-  end
-end
-
-# Method to create a person (teacher or student)
-def create_person(people, type, id, age, options = {})
-  name = options[:name] || 'Unknown'
-  options.key?(:parent_permission) ? options[:parent_permission] : true
-  specialization = options[:specialization]
-  classroom = options[:classroom]
-
-  if type == 'teacher'
-    person = Teacher.new(id, age, specialization, name)
-  elsif type == 'student'
-    person = Student.new(id, age, classroom, name)
-  else
-    puts 'Invalid person type.'
-    return
+class App
+  def initialize
+    @people = []
+    @books = []
+    @rentals = []
   end
 
-  people << person
-  puts "Created #{type.capitalize}: ID: #{person.id}, Name: #{person.name}, Age: #{person.age}"
-end
-
-# Method to create a book
-def create_book(books, title, author)
-  book = Book.new(title, author)
-  books << book
-  puts "Created Book: Title: #{book.title}, Author: #{book.author}"
-end
-
-# Method to create a rental
-def create_rental(options)
-  people = options[:people]
-  books = options[:books]
-  rentals = options[:rentals]
-  person_id = options[:person_id]
-  book_title = options[:book_title]
-  date = options[:date]
-
-  person = people.find { |p| p.id == person_id }
-  book = books.find { |b| b.title == book_title }
-
-  if person.nil?
-    puts "Person with ID #{person_id} not found."
-  elsif book.nil?
-    puts "Book with title '#{book_title}' not found."
-  else
-    rental = Rental.new(person, book, date)
-    rentals << rental
-    puts "Created Rental: Person ID: #{person.id}, Book Title: #{book.title}, Date: #{rental.date}"
+  def list_all_books
+    @books.each do |book|
+      puts "Title: \"#{book.title}\", Author: #{book.author}"
+    end
   end
-end
 
-# Method to list all rentals for a given person ID
-def list_rentals_for_person(rentals, person_id)
-  puts "Rentals for Person ID #{person_id}:"
-  person_rentals = rentals.select { |rental| rental.person.id == person_id }
-  person_rentals.each do |rental|
-    puts "Book Title: #{rental.book.title}, Date: #{rental.date}"
+  def list_all_people
+    @people.each do |person|
+      if person.instance_of?(Student)
+        puts "[Student], ID: #{person.id}, Name: #{person.name}, age: #{person.age}"
+      else
+        puts "[Teacher], ID: #{person.id}, Name: #{person.name}, age: #{person.age}"
+      end
+    end
+  end
+
+  def create_person
+    print 'Do you want to add a student (1) or a teacher (2)? [Input the number]: '
+    student_or_teacher = gets.chomp.to_i
+    case student_or_teacher
+    when 1
+      create_student
+    when 2
+      create_teacher
+    else
+      puts 'Please enter a valid number: 1 or 2'
+    end
+  end
+
+  def create_student
+    print 'Age: '
+    age = gets.chomp
+    print 'Name: '
+    name = gets.chomp
+    puts 'Has parent permission? [Y/N]'
+    permission = gets.chomp.downcase == 'y'
+    student = Student.new(age, permission, name)
+    @people << student
+    puts 'Student created sucessfully'
+  end
+
+  def create_teacher
+    print 'Age: '
+    age = gets.chomp
+    print 'Name: '
+    name = gets.chomp
+    puts 'specialization'
+    specialization = gets.chomp
+    teacher = Teacher.new(age, specialization, name)
+    @people << teacher
+    puts 'Teacher created sucessfully'
+  end
+
+  def add_book
+    print 'Title: '
+    title = gets.chomp
+    print 'Author: '
+    author = gets.chomp
+    book = Book.new(title, author)
+    @books << book
+    puts 'Book created sucessfully'
+  end
+
+  def add_rental
+    puts 'Select a book from the following list by number'
+    @books.each_with_index do |book, index|
+      puts "#{index}) Title: \"#{book.title}\", Auhtor: #{book.author}"
+    end
+    book_idx = gets.chomp.to_i
+
+    puts 'Select a person from the following list by number (not id)'
+    @people.each_with_index do |person, index|
+      puts "#{index}) Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    end
+    person_idx = gets.chomp.to_i
+
+    print 'Date: '
+    rental_date = gets.chomp
+
+    rental = Rental.new(rental_date, @books[book_idx], @people[person_idx])
+    @rentals << rental
+    puts 'Rental created successfully'
+  end
+
+  def list_all_rentals
+    print 'ID of person: '
+    id = gets.chomp
+    puts 'Rental: '
+    @rentals.each do |rental|
+      puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}" if rental.person.id == id
+    end
   end
 end
