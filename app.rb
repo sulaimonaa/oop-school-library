@@ -5,13 +5,10 @@ require_relative 'book'
 require_relative 'rental'
 
 # Initialize data structures
-people = []
-books = []
-rentals = []
 
 # Method to list all books
 def list_all_books(books)
-  puts "List of Books:"
+  puts 'List of Books:'
   books.each do |book|
     puts "Title: #{book.title}, Author: #{book.author}"
   end
@@ -19,7 +16,7 @@ end
 
 # Method to list all people
 def list_all_people(people)
-  puts "List of People:"
+  puts 'List of People:'
   people.each do |person|
     puts "ID: #{person.id}, Name: #{person.name}, Age: #{person.age}"
   end
@@ -27,22 +24,22 @@ end
 
 # Method to create a person (teacher or student)
 def create_person(people, type, id, age, options = {})
-    name = options[:name] || 'Unknown'
-    parent_permission = options.key?(:parent_permission) ? options[:parent_permission] : true
-    specialization = options[:specialization]
-    classroom = options[:classroom]
+  name = options[:name] || 'Unknown'
+  parent_permission = options.key?(:parent_permission) ? options[:parent_permission] : true
+  specialization = options[:specialization]
+  classroom = options[:classroom]
 
-    if type == 'teacher'
+  if type == 'teacher'
     person = Teacher.new(id, age, specialization, { name: name, parent_permission: parent_permission })
-    elsif type == 'student'
+  elsif type == 'student'
     person = Student.new(id, age, classroom, name, parent_permission)
-    else
-    puts "Invalid person type."
+  else
+    puts 'Invalid person type.'
     return
-    end
+  end
 
-    people << person
-    puts "Created #{type.capitalize}: ID: #{person.id}, Name: #{person.name}, Age: #{person.age}"
+  people << person
+  puts "Created #{type.capitalize}: ID: #{person.id}, Name: #{person.name}, Age: #{person.age}"
 end
 
 # Method to create a book
@@ -53,7 +50,14 @@ def create_book(books, title, author)
 end
 
 # Method to create a rental
-def create_rental(people, books, rentals, person_id, book_title, date)
+def create_rental(options)
+  people = options[:people]
+  books = options[:books]
+  rentals = options[:rentals]
+  person_id = options[:person_id]
+  book_title = options[:book_title]
+  date = options[:date]
+
   person = people.find { |p| p.id == person_id }
   book = books.find { |b| b.title == book_title }
 
