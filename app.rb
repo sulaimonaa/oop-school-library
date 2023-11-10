@@ -25,14 +25,14 @@ end
 # Method to create a person (teacher or student)
 def create_person(people, type, id, age, options = {})
   name = options[:name] || 'Unknown'
-  parent_permission = options.key?(:parent_permission) ? options[:parent_permission] : true
+  options.key?(:parent_permission) ? options[:parent_permission] : true
   specialization = options[:specialization]
   classroom = options[:classroom]
 
   if type == 'teacher'
-    person = Teacher.new(id, age, specialization, { name: name, parent_permission: parent_permission })
+    person = Teacher.new(id, age, specialization, name)
   elsif type == 'student'
-    person = Student.new(id, age, classroom, name, parent_permission)
+    person = Student.new(id, age, classroom, name)
   else
     puts 'Invalid person type.'
     return

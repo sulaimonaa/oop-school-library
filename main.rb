@@ -71,7 +71,8 @@ def create_rental_menu(people, books, rentals)
 
     date = enter_rental_date
 
-    create_rental(people, books, rentals, person_id.to_i, book_title, date)
+    create_rental(people: people, books: books, rentals: rentals, person_id: person_id, book_title: book_title,
+                  date: date)
   end
 end
 
