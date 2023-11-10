@@ -95,12 +95,27 @@ class App
     puts 'Rental created successfully'
   end
 
+  # def list_all_rentals
+  #   print 'ID of person: '
+  #   id = gets.chomp
+  #   puts 'Rental: '
+  #   @rentals.each do |rental|
+  #     puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}" if rental.person.id == id
+  #   end
+  # end
+  # Method to list all rentals for a given person ID
   def list_all_rentals
     print 'ID of person: '
     id = gets.chomp
-    puts 'Rental: '
-    @rentals.each do |rental|
-      puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}" if rental.person.id == id
+    puts 'Rentals: '
+    matching_rentals = @rentals.select { |rental| rental.person.id == id if rental.person.respond_to?(:id) }
+
+    if matching_rentals.empty?
+      puts 'No rentals found for this person ID.'
+    else
+      matching_rentals.each do |rental|
+        puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
+      end
     end
   end
 end
