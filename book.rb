@@ -5,11 +5,12 @@ class Book
   def initialize(title, author)
     @title = title
     @author = author
-    @rentals = [] # Initialize an empty array to store rentals
+    @rentals = []
   end
 
-  # Add a rental to the book
-  def add_rental(rental)
+  def add_rental(person, date)
+    rental = Rental.new(self, person, date)
     @rentals << rental
+    person.add_rental(rental)
   end
 end
