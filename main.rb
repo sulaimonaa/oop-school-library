@@ -21,7 +21,7 @@ def display_menu
   puts '7 - Exit'
 end
 
-def choose_option(option, app, books, rentals, people)
+def choose_option(option, app, _books, _rentals, _people)
   case option
   when 1
     app.list_all_books
@@ -34,7 +34,7 @@ def choose_option(option, app, books, rentals, people)
   when 5
     app.add_rental
   when 6
-    app.list_all_rentals(books, rentals, people)
+    app.list_all_rentals
   else
     'Wrong number please enter a number between 1 and 7'
   end
