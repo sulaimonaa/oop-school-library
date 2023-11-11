@@ -1,4 +1,14 @@
 require_relative 'app'
+require_relative 'person'
+require_relative 'student'
+require_relative 'teacher'
+require_relative 'book'
+require_relative 'rental'
+
+# Initialize data structures
+people = []
+books = []
+rentals = []
 
 def display_menu
   puts "\nPlease choose an option by entering a number:"
@@ -11,7 +21,7 @@ def display_menu
   puts '7 - Exit'
 end
 
-def choose_option(option, app)
+def choose_option(option, app, books, rentals, people)
   case option
   when 1
     app.list_all_books
@@ -24,13 +34,13 @@ def choose_option(option, app)
   when 5
     app.add_rental
   when 6
-    app.list_all_rentals
+    app.list_all_rentals(books, rentals, people)
   else
     'Wrong number please enter a number between 1 and 7'
   end
 end
 
-def main
+def main(books, rentals, people)
   puts '------------------------------'
   puts 'Welcome to School Library App!'
   puts '------------------------------'
@@ -42,9 +52,9 @@ def main
       puts 'Thank you for using this app!'
       break
     else
-      choose_option(option, app)
+      choose_option(option, app, books, rentals, people)
     end
   end
 end
 
-main
+main(books, rentals, people)
