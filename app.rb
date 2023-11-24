@@ -49,7 +49,7 @@ class App
     permission = gets.chomp.downcase == 'y'
     student = Student.new(age, permission, name)
     @people << student
-    puts 'Student created sucessfully'
+    puts 'Student was created sucessfully'
   end
 
   def create_teacher
@@ -61,7 +61,7 @@ class App
     specialization = gets.chomp
     teacher = Teacher.new(age, specialization, name)
     @people << teacher
-    puts 'Teacher created sucessfully'
+    puts 'Teacher was created sucessfully'
   end
 
   def add_book
@@ -71,7 +71,7 @@ class App
     author = gets.chomp
     book = Book.new(title, author)
     @books << book
-    puts 'Book created sucessfully'
+    puts 'Book was created sucessfully'
   end
 
   def add_rental
@@ -92,7 +92,7 @@ class App
 
     rental = Rental.new(@books[book_idx], @people[person_idx], rental_date)
     @rentals << rental
-    puts 'Rental created successfully'
+    puts 'Rental was created successfully'
   end
 
   def list_all_rentals
